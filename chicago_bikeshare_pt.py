@@ -266,11 +266,15 @@ for trip_duration_item in trip_duration_list:
         min_trip = trip_duration_value
     if max_trip < trip_duration_value:
         max_trip = trip_duration_value
-mean_trip = sum_trip / count_trip
 trip_duration_list.sort()
-index_median = round(float(count_trip + 1) / 2)
-print(trip_duration_list[index_median-10:index_median+10])
-median_trip = trip_duration_list[index_median]
+mean_trip = sum_trip / count_trip
+index_median = round(float(count_trip) / 2)
+print('count_trip={}, index_median={}'.format(count_trip, index_median))
+print(trip_duration_list[index_median-5:index_median+5])
+if count_trip % 2 == 0:
+    median_trip = (trip_duration_list[index_median] + trip_duration_list[index_median-1]) / 2.0
+else:
+    median_trip = trip_duration_list[index_median]
 
 print("\nTAREFA 9: Imprimindo o mínimo, máximo, média, e mediana")
 print("Min: ", min_trip, "Max: ", max_trip, "Média: ", mean_trip, "Mediana: ", median_trip)
