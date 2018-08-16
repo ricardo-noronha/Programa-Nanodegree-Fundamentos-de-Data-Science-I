@@ -51,21 +51,21 @@ for item in data_list[:20]:
 input("Aperte Enter para continuar...")
 # TAREFA 3
 # TODO: Crie uma função para adicionar as colunas(features) de uma lista em outra lista, na mesma ordem
-# def column_to_list(data: list, index: int) -> list:
-#      """
-#      Função para adicionar as colunas(features) de uma lista em outra lista, na mesma ordem.
-#      Argumentos:
-#           data: list com os dados de entrada
-#           index: index do ítem da lista que será usada para montar a outra lista
-#           type: tipo de dado que a lista será criado, onde:
-#               none: não será realizado nenhuma conversão
-#               float: será convertido para float antes de inserir o ítem na lista
-#               int: será convertido para int antes de inserir o ítem na lista
-#      Retorna:
-#           Uma lista com os valores dos ítens determinados pelo parâmetro index.
-#
-#      """
 def column_to_list(data, index, type='none'):
+    """
+    def column_to_list(data: list, index: int) -> list:
+
+    Função para adicionar as colunas(features) de uma lista em outra lista, na mesma ordem.
+    Argumentos:
+         data: list com os dados de entrada
+         index: index do ítem da lista que será usada para montar a outra lista
+         type: tipo de dado que a lista será criado, onde:
+             none: não será realizado nenhuma conversão
+             float: será convertido para float antes de inserir o ítem na lista
+             int: será convertido para int antes de inserir o ítem na lista
+    Retorna:
+         Uma lista com os valores dos ítens determinados pelo parâmetro index.
+    """    
     column_list = []
     # Dica: Você pode usar um for para iterar sobre as amostras, pegar a feature pelo seu índice, e dar append para uma lista
     for item in data:
@@ -76,6 +76,24 @@ def column_to_list(data, index, type='none'):
         else:
             column_list.append(item[index])
     return column_list
+
+def CountItem(data, index, column_name):
+    """
+    def CountItem(data: list, index: int, item: string) -> list:
+
+    Função para contar número de ocorrências de um ítem em uma lista
+    Argumentos:
+         data: list com os dados de entrada
+         index: index do ítem da lista que será usada verificar com o nome da coluna para a contagem
+         column_name: nome do ítem que se deseja realizar a contagem
+    Retorna:
+         Um valor inteiro com a contagem do ítem
+    """
+    count = 0
+    for item in data:
+        if (item[index] == column_name):
+            count += 1
+    return count    
 
 # Vamos checar com os gêneros se isso está funcionando (apenas para os primeiros 20)
 print("\nTAREFA 3: Imprimindo a lista de gêneros das primeiras 20 amostras")
@@ -93,8 +111,10 @@ input("Aperte Enter para continuar...")
 # Agora sabemos como acessar as features, vamos contar quantos Male (Masculinos) e Female (Femininos) o dataset tem
 # TAREFA 4
 # TODO: Conte cada gênero. Você não deveria usar uma função parTODO isso.
-male = column_to_list(data_list, -2).count("Male")
-female = column_to_list(data_list, -2).count("Female")
+#male = column_to_list(data_list, -2).count("Male")
+#female = column_to_list(data_list, -2).count("Female")
+male = CountItem( data_list, -2, 'Male')
+female = CountItem( data_list, -2, 'Female')
 
 # Verificando o resultado
 print("\nTAREFA 4: Imprimindo quantos masculinos e femininos nós encontramos")
@@ -109,20 +129,38 @@ input("Aperte Enter para continuar...")
 # TAREFA 5
 # TODO: Crie uma função para contar os gêneros. Retorne uma lista.
 # Isso deveria retornar uma lista com [count_male, count_female] (exemplo: [10, 15] significa 10 Masculinos, 15 Femininos)
-# def count_gender(data_list: list) -> list:
-#      """
-#      Função para contar os gêneros.
-#      Argumentos:
-#           data: list com os dados de entrada
-#      Retorna:
-#           Uma lista contendo dois ítens que corresponde a soma das ocorrências do ítem 'Male' e 'Female'.
-#
-#      """
 def count_gender(data_list):
-    gender_list = column_to_list(data_list, -2)
-    male = gender_list.count("Male")
-    female = gender_list.count("Female")
+    """
+    def count_gender(data_list: list) -> list:
+        
+    Função para contar os gêneros.
+    Argumentos:
+        data: list com os dados de entrada
+    Retorna:
+        Uma lista contendo dois ítens que corresponde a soma das ocorrências do ítem 'Male' e 'Female'.
+
+    """
+    #gender_list = column_to_list(data_list, -2)
+    #male = gender_list.count("Male")
+    #female = gender_list.count("Female")
+    male = CountItem(data_list, -2, "Male")
+    female = CountItem(data_list, -2, "Female")
     return [male, female]
+
+def count_user_types(data_list):
+    """
+    def count_user_types(data_list: list) -> list:
+        
+    Função para contar os tipos de usuários.
+    Argumentos:
+        data: list com os dados de entrada
+    Retorna:
+        Uma lista contendo dois ítens que corresponde a soma das ocorrências do ítem 'Subscriber' e 'Customer'.
+
+    """
+    subscriberCount = CountItem(data_list, -3, "Subscriber")
+    customerCount = CountItem(data_list, -3, "Customer")
+    return [subscriberCount, customerCount]
 
 
 print("\nTAREFA 5: Imprimindo o resultado de count_gender")
@@ -140,11 +178,21 @@ input("Aperte Enter para continuar...")
 # TODO: Crie uma função que pegue o gênero mais popular, e retorne este gênero como uma string.
 # Esperamos ver "Masculino", "Feminino", ou "Igual" como resposta.
 def most_popular_gender(data_list):
-    gender_list = count_gender(data_list)
+    """
+    def most_popular_gender(data_list: list) -> list:
+        
+    Função para verificar o gênero com maior ocorrência.
+    Argumentos:
+        data: list com os dados de entrada
+    Retorna:
+        Um string com o nome do gênero com maior ocorrência
+
+    """
+    male_count, female_count = count_gender(data_list)
     answer = ""
-    if (gender_list[0] > gender_list[1]):
+    if (male_count > female_count):
         answer = "Male"
-    elif (gender_list[0] < gender_list[1]):
+    elif (male_count < female_count):
         answer = "Female"
     else:
         answer = "Equal"
@@ -160,7 +208,6 @@ assert most_popular_gender(data_list) == "Male", "TAREFA 6: Resultado de retorno
 # -----------------------------------------------------
 
 # Se tudo está rodando como esperado, verifique este gráfico!
-gender_list = column_to_list(data_list, -2)
 types = ["Male", "Female"]
 quantity = count_gender(data_list)
 y_pos = list(range(len(types)))
@@ -176,9 +223,8 @@ input("Aperte Enter para continuar...")
 # TODO: Crie um gráfico similar para user_types. Tenha certeza que a legenda está correta.
 print("\nTAREFA 7: Verifique o gráfico!")
 
-gender_list = column_to_list(data_list, -1)
 types = ["Subscriber", "Customer"]
-quantity = count_gender(data_list)
+quantity = count_user_types(data_list)
 y_pos = list(range(len(types)))
 plt.bar(y_pos, quantity)
 plt.ylabel('Quantidade')
@@ -273,32 +319,37 @@ input("Aperte Enter para continuar...")
 print("Você vai encarar o desafio? (yes ou no)")
 answer = "yes"
 
-# def count_items(column_list: list) -> list, list:
-#      """
-#      Função para relacionar e contar tipos de ítens de uma lista.
-#      Argumentos:
-#           column_list: list com os dados de entrada
-#      Retorna:
-#           Uma lista com os valores dos tipos de ítem.
-#           Outra lista com as quantidades de cada tipo de ítems
-#
-#      """
-def count_items(column_list):
+def count_user_types_items(data_list, index):
+    """
+    def count_user_types_items(data_list: list, index: int) -> list, list:
+
+    Função para relacionar e contar tipos de ítens de uma lista.
+    Argumentos:
+        data_list: list com os dados de entrada
+        index: index do ítem da lista que será usada para montar a outra lista
+    Retorna:
+        Uma lista com os valores dos tipos de ítem.
+        Outra lista com as quantidades de cada tipo de ítems
+
+    """    
     item_types = []
     count_items = []
     user_types = set()
-    for start_stations_item in column_list:
+
+    for start_stations_item in column_to_list(data_list, index):
         user_types.add(start_stations_item)
+
     for user_types_item in user_types:
         item_types.append(user_types_item)
-        count_items.append(column_list.count(user_types_item))
+        count_items.append(CountItem(data_list, index, user_types_item))
+
     return item_types, count_items
 
 
 if answer == "yes":
     # ------------ NÃO MUDE NENHUM CÓDIGO AQUI ------------
-    column_list = column_to_list(data_list, -2)
-    types, counts = count_items(column_list)
+    #column_list = column_to_list(data_list, -2)
+    types, counts = count_user_types_items(data_list, -2)
     print("\nTAREFA 11: Imprimindo resultados para count_items()")
     print("Tipos:", types, "Counts:", counts)
     assert len(types) == 3, "TAREFA 11: Há 3 tipos de gênero!"
